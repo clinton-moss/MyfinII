@@ -19,7 +19,7 @@ namespace MyfinII.Controllers
         }
 
         [HttpPost("Upload")]
-        public async Task<List<TransactionLedgerItem>> UploadStatement(UploadFile UploadedFile)
-            => await new StatementService().ProcessStatementFile(UploadedFile);
+        public async Task<List<TransactionProcessingResult>> UploadStatement(UploadFile UploadedFile)
+            => await new StatementService(_context).ProcessStatementFile(UploadedFile);
     }
 }

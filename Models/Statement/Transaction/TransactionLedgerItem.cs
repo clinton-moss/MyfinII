@@ -6,8 +6,21 @@ namespace MyfinII.Models.Statement.Transaction;
 
 public class TransactionLedgerItem
 {
+    public TransactionLedgerItem()
+    {
+
+    }
     public TransactionLedgerItem(Account account, DateTime dateTime, string description, float amount)
     {
+        Account = account;
+        DateTime = dateTime;
+        Description = description;
+        Amount = amount;
+    }
+
+    public TransactionLedgerItem(Guid id, Account account, DateTime dateTime, string description, float amount)
+    {
+        Id = id;
         Account = account;
         DateTime = dateTime;
         Description = description;

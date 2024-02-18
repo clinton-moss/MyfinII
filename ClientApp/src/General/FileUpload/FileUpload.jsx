@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import UploadFile from '../../libs/api/Types/UploadFile';
-function FileUpload({ PostURL }) {
+function FileUpload({ PostURL, onComplete, onError }) {
     const [file, setFile] = useState(''); // storing the uploaded file    
     // storing the recived file from backend
-    const [data, getFile] = useState({ name: "", path: "" });
     const [progress, setProgess] = useState(0); // progess bar
     const el = useRef(); // accesing input element
     const handleChange = (e) => {
@@ -67,12 +66,8 @@ function FileUpload({ PostURL }) {
                 setProgess(progress);
             }
         }).then(res => {
-            console.log(res);
-            getFile({
-                name: res.data.name,
-                path: PostURL + res.data.path
-            })
-        }).catch(err => console.log(err))
+            if (onComplete) onComplete(res)
+        }).catch(err => { if (onError) onError(err) })
     }
     return (
         <div>
