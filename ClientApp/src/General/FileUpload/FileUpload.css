@@ -1,0 +1,1 @@
+.file-upload{display:flex;align-items:center}.file-upload .fileName{flex-grow:2}.file-upload .progessBar{flex-grow:1;max-width:30vw}.file-upload .progessBar .progress{text-align:center;color:#fff;background-color:#618f81}.file-upload .upbutton{flex-shrink:1}

@@ -1,0 +1,23 @@
+.file-upload {
+    display: flex;
+    align-items: center;
+
+    .fileName {
+        flex-grow: 2;
+    }
+
+    .progessBar {
+        flex-grow: 1;
+        max-width: 30vw;
+
+        .progress {
+            text-align: center;
+            color: white;
+            background-color: rgb(97, 143, 129);
+        }
+    }
+
+    .upbutton {
+        flex-shrink: 1;
+    }
+}

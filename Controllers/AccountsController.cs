@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyfinII.Data;
 using MyfinII.Models.Accounts;
+using MyfinII.Models.Statement.Transaction;
+using MyfinII.Services.Account;
 
 namespace MyfinII.Controllers
 {
@@ -120,5 +122,10 @@ namespace MyfinII.Controllers
         {
             return (_context.Account?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        [HttpGet("Account/{accountId}/Ledger")]
+        public async Task<List<TransactionLedgerItem>> ListRunningLedger(Guid accountId)
+            => await new AccountsService(_context).ListRunningLedger(new Models.Accounts.Account(accountId));
+
     }
 }

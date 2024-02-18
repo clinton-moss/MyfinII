@@ -7,6 +7,7 @@ namespace MyfinII.Models.Accounts
     {
         public Account() { }
         public Account(string AccountNumber) { this.AccountNumber = AccountNumber; }
+        public Account(Guid Id) { this.Id = Id; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }

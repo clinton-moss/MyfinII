@@ -18,11 +18,13 @@ export default function UploadStatement() {
     return (
         <div>
             <FileUpload PostURL={'api/Statement/Upload'} onComplete={(r) => setResult(r)} />
-            {
-                result.data && result.data.map((r) =>
-                    <div key={r.id}>{r.status} - {r.transaction.description} - {r.transaction.amount}</div>
-                )
-            }
+            <table className='table'>
+                {
+                    result.data && result.data.map((r) =>
+                        <tr key={r.id}><td>{r.status}</td><td>{r.transaction.description}</td><td>{r.transaction.amount}</td></tr>
+                    )
+                }
+            </table>
         </div>
     )
 }

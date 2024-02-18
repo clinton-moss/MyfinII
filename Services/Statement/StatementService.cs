@@ -22,12 +22,12 @@ public class StatementService
         Dictionary<string, List<string>> ValuesRead = new FileProcessor(UploadedFile, new NedbankExcelStatement()).Process();
         List<TransactionProcessingResult> Results = new List<TransactionProcessingResult>();
 
-        Account account = _context.Account.FirstOrDefault(a => a.AccountNumber == ValuesRead["account number"][0].Trim());
+        Models.Accounts.Account account = _context.Account.FirstOrDefault(a => a.AccountNumber == ValuesRead["account number"][0].Trim());
         if (account == null)
         {
             try
             {
-                account = new Account(ValuesRead["account number"][0].Trim());
+                account = new Models.Accounts.Account(ValuesRead["account number"][0].Trim());
                 if (ValuesRead.ContainsKey("account name"))
                     account.AccountName = ValuesRead["account name"][0].Trim();
                 account.AccountType = "Unkown";
@@ -64,4 +64,5 @@ public class StatementService
             return new TransactionProcessingResult(_ledgerExists, false, "Transaction Previously Imported");
         return new TransactionProcessingResult(Transaction, true, "Transaction Imported");
     }
+
 }

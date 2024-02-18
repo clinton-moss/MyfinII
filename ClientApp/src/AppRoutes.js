@@ -1,6 +1,7 @@
 import AccountDashboard from "./components/Accounts/AccountDashboard";
 import Home from "./components/Home";
 import StatementsDashboard from "./components/Statement/StatementsDashboard";
+import UploadStatement from "./components/Statement/UploadStatement";
 import Upload from "./components/Upload/Upload";
 
 const AppRoutes = [
@@ -10,7 +11,7 @@ const AppRoutes = [
   },
   {
     path: '/upload',
-    element: <Upload />
+    element: <UploadStatement />
   },
   {
     path: '/accounts',

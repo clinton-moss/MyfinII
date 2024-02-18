@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Accounts from '../../libs/api/Accounts'
-import LedgerDashboard from './Ledger/LedgerDashboard'
 import SalesWidget from '../Home/Widgets/Sales/SalesWidget'
+import TransactionLedgerWidget from '../Home/Widgets/Transactions/TransactionLedgerWidget'
+import LedgerDashboard from './Ledger/LedgerDashboard'
 
 export default function AccountDashboard() {
     const { id } = useParams()
@@ -49,6 +50,13 @@ export default function AccountDashboard() {
                     onClick={() => setMode('Forecast')}>Forecast</div>
             </div>
             {section()}
+            <div className='row'>
+                <div className='col-lg-3'><div className='shadow' style={{ maxHeight: '50vh', overflow: 'auto' }}>
+                    <h3 className='text-center'>Ledger</h3>
+                    <TransactionLedgerWidget accountId={id} />
+                </div></div>
+            </div>
+
         </div>
     )
 }

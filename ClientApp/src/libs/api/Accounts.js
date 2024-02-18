@@ -45,6 +45,17 @@ var Accounts = {
 
         return result
     },
+    async ListRunningLedger(account) {
+        var result = await API.process(
+            `api/Accounts/Account/${account}/Ledger`,
+            'GET',
+            null
+        ).catch((err) => {
+            throw err;
+        })
+
+        return result
+    },
 }
 
 export default Accounts;

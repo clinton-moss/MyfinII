@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import UploadFile from '../../libs/api/Types/UploadFile';
+import './FileUpload.css';
 function FileUpload({ PostURL, onComplete, onError }) {
     const [file, setFile] = useState(''); // storing the uploaded file    
     // storing the recived file from backend
@@ -72,11 +73,15 @@ function FileUpload({ PostURL, onComplete, onError }) {
     return (
         <div>
             <div className="file-upload">
-                <input type="file" ref={el} onChange={handleChange} />
-                <div className="progessBar" style={{ width: progress }}>
-                    {progress}
+                <input className='fileName' type="file" ref={el} onChange={handleChange} />
+                <div className="progessBar">
+                    
+                    <div className='progress position-relative' style={{ width: progress }}>
+                    <div className='position-absolute' style={{left:'45%'}}>{progress}</div>
+                    </div>
                 </div>
-                <button onClick={uploadFile} className="upbutton">
+
+                <button onClick={uploadFile} className="upbutton btn btn-sm">
                     Upload
                 </button>
                 <hr />
