@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link } from 'react-bootstrap-icons'
+import { NavLink, useParams } from 'react-router-dom'
+import { NavItem, Navbar } from 'reactstrap'
 import Accounts from '../../libs/api/Accounts'
 import SalesWidget from '../Home/Widgets/Sales/SalesWidget'
 import TransactionLedgerWidget from '../Home/Widgets/Transactions/TransactionLedgerWidget'
@@ -48,6 +50,24 @@ export default function AccountDashboard() {
                     style={{ cursor: 'pointer' }}
                     className={'p-2 '.concat(mode === 'Forecast' ? ' bg-success text-light shadow ' : '')}
                     onClick={() => setMode('Forecast')}>Forecast</div>
+            </div>
+            <div className='d-flex'>
+                {
+                    mode === 'Forecast'
+                        ?
+                        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
+                            <ul className="navbar-nav flex-grow">
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark decoration-none "
+                                        to={"/Accounts/" + id + "/Payments/Recurring"}>Recuring Payments</NavLink>
+                                </NavItem>
+                            </ul>
+                        </Navbar>
+                        :
+                        <></>
+                }
             </div>
             {section()}
             <div className='row'>

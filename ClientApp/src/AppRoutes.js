@@ -1,3 +1,5 @@
+import AppRoutesAccountsDashboard from "./AppRoutesAccountsDashboard";
+import AppRoutesForecastDashboard from "./AppRoutesForecastDashboard";
 import AccountDashboard from "./components/Accounts/AccountDashboard";
 import Home from "./components/Home";
 import StatementsDashboard from "./components/Statement/StatementsDashboard";
@@ -28,6 +30,8 @@ const AppRoutes = [
     path: '/statements',
     element: <StatementsDashboard />
   },
+  ...AppRoutesForecastDashboard,
+  ...AppRoutesAccountsDashboard
 ];
 
 export default AppRoutes;
