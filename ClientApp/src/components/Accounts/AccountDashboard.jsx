@@ -60,8 +60,12 @@ export default function AccountDashboard() {
                                 <NavItem>
                                     <NavLink
                                         tag={Link}
-                                        className="text-dark decoration-none "
+                                        className="text-dark p-1"
                                         to={"/Accounts/" + id + "/Payments/Recurring"}>Recuring Payments</NavLink>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark p-1"
+                                        to={"/Accounts/" + id + "/Lifestyle/Inventory"}>Planned Spending</NavLink>
                                 </NavItem>
                             </ul>
                         </Navbar>
