@@ -37,17 +37,18 @@ export default function InventoryItemComponent() {
             </div>
             <div>
                 <b>SKU</b>
-                <input className='form-control' placeholder='SKU' />
+                <input onChange={(e) => setItem({ ...item, sku: e.target.value })} className='form-control' placeholder='SKU' />
             </div>
             <div>
                 <b>Name</b>
-                <input className='form-control' placeholder='Name' />
+                <input onChange={(e) => setItem({ ...item, name: e.target.value })} className='form-control' placeholder='Name' />
             </div>
             <div>
                 <b>Unit Count</b>
                 <div className='d-flex'>
-                    <div className='flex-grow-1'><input type='number' className='form-control' placeholder='Units' /></div>
-                    <div className='flex-shrink-1'><select className='form-control flex-shrink-1'>
+                    <div onChange={(e) => setItem({ ...item, unitCount: e.target.value })} className='flex-grow-1'><input type='number' className='form-control' placeholder='Units' /></div>
+                    <div className='flex-shrink-1'>
+                        <select onChange={(e) => setItem({ ...item, unit: e.target.value })} className='form-control flex-shrink-1'>
                         <option>GRAMS</option>
                         <option>MILLILITRES</option>
                         <option>ITEM</option>
