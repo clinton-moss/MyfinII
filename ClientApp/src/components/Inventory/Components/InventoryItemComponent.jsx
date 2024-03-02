@@ -28,7 +28,7 @@ export default function InventoryItemComponent() {
         <div>
             <div>
                 <b>Brand</b>
-                <BrandComponent onSelect={(b) => setItem({ ...item, brand: b })} />
+                <BrandComponent onSelect={(b) => setItem({ ...item, Brand: b[0] })} />
             </div>
             <div>
                 <b>SKU</b>

@@ -15,8 +15,10 @@ export default function BrandComponent({ onSelect }) {
     return (
         <div>
             <APISearchableDropdownComponent
+                multi={false}
                 placeholder={'Brands'}
                 onCreate={Inventory.CreateBrand}
+                onSelect={onSelect}
                 dataset={brands} options={{
                     dataset: {
                         primaryKey: 'id',

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { XCircle } from 'react-bootstrap-icons'
 import './APISearchableDropdown.css'
-export default function APISearchableDropdownComponent({ dataset, options, className, placeholder, onCreate }) {
+export default function APISearchableDropdownComponent({ dataset, options, className, placeholder, onCreate,onSelect, multi }) {
     const [createResult, setCreateResult] = useState({})
     const [results, setResults] = useState([])
     const [mode, setMode] = useState()
@@ -19,8 +19,9 @@ export default function APISearchableDropdownComponent({ dataset, options, class
         if (_exists)
             _results.splice(_exists, 1)
         else
-            _results.push(s)
+            if (multi) _results.push(s); else _results[0] = s;
         setResults([..._results])
+        if(onSelect) onSelect(_results)
     }
 
     const _handleShowCreate = (e) => {
