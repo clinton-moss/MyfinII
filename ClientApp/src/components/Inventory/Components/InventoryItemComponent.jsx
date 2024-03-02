@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Inventory from '../../../libs/api/Inventory'
 import BrandComponent from './BrandComponent'
+import InventoryCategoryComponent from './InventoryCategoryComponent'
 
 export default function InventoryItemComponent() {
     const [item, setItem] = useState({
@@ -26,6 +27,10 @@ export default function InventoryItemComponent() {
     }
     return (
         <div>
+            <div>
+                <b>Category</b>
+                <InventoryCategoryComponent onSelect={(b) => setItem({ ...item, Category: b[0] })} />
+            </div>
             <div>
                 <b>Brand</b>
                 <BrandComponent onSelect={(b) => setItem({ ...item, Brand: b[0] })} />

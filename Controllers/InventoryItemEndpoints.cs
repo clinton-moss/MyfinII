@@ -5,6 +5,8 @@ using MyfinII.Data;
 using MyfinII.Models.Invetory;
 using MyfinII.Services.Inventory;
 using MyfinII.Services.Inventory.Brands;
+using MyfinII.Models.Invetory.Categories;
+using MyfinII.Services.Inventory.Categories;
 
 namespace MyfinII.Controllers;
 
@@ -80,6 +82,21 @@ public static class InventoryItemEndpoints
             return TypedResults.Ok(await new BrandService(db).AddBrand(brand));
         })
         .WithName("CreateBrand")
+        .WithOpenApi();
+        /*
+         * Categories
+         */
+
+        group.MapGet("/Categories", async Task<Results<Ok<IEnumerable<InventoryCategory>>, NotFound>> (MyfinIIContext db)
+            => TypedResults.Ok(await new InventoryCategoryService(db).ListCategories())
+        )
+        .WithName("ListCategories")
+        .WithOpenApi();
+
+        group.MapPost("/Category", async Task<Results<Ok<InventoryCategory>, NotFound>> (InventoryCategory category, MyfinIIContext db) =>
+            TypedResults.Ok(await new InventoryCategoryService(db).AddCategory(category))
+        )
+        .WithName("CreateCategory")
         .WithOpenApi();
     }
 }
