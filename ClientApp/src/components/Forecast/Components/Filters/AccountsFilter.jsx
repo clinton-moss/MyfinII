@@ -21,9 +21,6 @@ export default function AccountsFilter() {
                 idField: 'id'
             }} data={accounts} />
             <div></div>
-            <ul >
-                {accounts.map((a) => <li key={a.id}>{a.accountName}</li>)}
-            </ul>
         </div>
     )
 }
