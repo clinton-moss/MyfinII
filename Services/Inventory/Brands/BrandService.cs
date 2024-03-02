@@ -18,5 +18,12 @@ namespace MyfinII.Services.Inventory.Brands
         public async Task<IEnumerable<Brand>> ListBrands() {
             return await db.Brands.ToListAsync();
         }
+
+        async internal Task<Brand> AddBrand(Brand brand)
+        {
+            db.Brands.Add(brand);
+            await db.SaveChangesAsync();
+            return brand;
+        }
     }
 }

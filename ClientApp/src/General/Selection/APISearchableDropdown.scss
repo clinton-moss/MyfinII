@@ -2,7 +2,12 @@
 
     // main results
     .results {
-        .result-field {}
+        .result-field {
+            background-color: aquamarine;
+            border-radius: 25%;
+            padding: 0.12rem;
+            font-size: 0.7rem;
+        }
     }
 
     // Search results

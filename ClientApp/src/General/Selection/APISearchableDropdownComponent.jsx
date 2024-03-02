@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { XCircle } from 'react-bootstrap-icons'
 import './APISearchableDropdown.css'
 export default function APISearchableDropdownComponent({ dataset, options, className, placeholder, onCreate }) {
@@ -6,6 +6,8 @@ export default function APISearchableDropdownComponent({ dataset, options, class
     const [results, setResults] = useState([])
     const [mode, setMode] = useState()
     const [datasets, setDatasets] = useState(dataset)
+
+    useEffect(() => { setDatasets(dataset) }, [dataset])
 
     const _handleSearch = (s) => {
 
@@ -33,7 +35,7 @@ export default function APISearchableDropdownComponent({ dataset, options, class
 
     const _handlecreate = (e) => {
         onCreate(createResult)
-            .then((r) => setDatasets([...datasets, r]))
+            .then((r) => { setDatasets([...datasets, r]); _handleSelectResult(r); setMode('Search') })
     }
     return (
         <div className={'api-searchable-drop-down position-relative w-100 '.concat(className)}>

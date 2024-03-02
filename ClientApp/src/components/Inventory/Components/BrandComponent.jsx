@@ -21,11 +21,11 @@ export default function BrandComponent({ onSelect }) {
                     dataset: {
                         primaryKey: 'id',
                         viewFields: [
-                            {
-                                field: 'id',
-                                hr: 'Brand Name',
-                                format: 'Text'
-                            },
+                            // {
+                            //     field: 'id',
+                            //     hr: 'Brand Name',
+                            //     format: 'Text'
+                            // },
                             {
                                 field: 'brandName',
                                 hr: 'Brand Name',
@@ -51,9 +51,6 @@ export default function BrandComponent({ onSelect }) {
                         }
                     }
                 }} />
-            <ul>
-                {brands.map((r) => <li onClick={() => onSelect(r)} key={r.id}>{r.brandName}</li>)}
-            </ul>
         </div>
     )
 }

@@ -74,5 +74,12 @@ public static class InventoryItemEndpoints
         })
         .WithName("ListBrands")
         .WithOpenApi();
+
+        group.MapPost("/Brand", async Task<Results<Ok<Brand>, NotFound>> (Brand brand, MyfinIIContext db) =>
+        {
+            return TypedResults.Ok(await new BrandService(db).AddBrand(brand));
+        })
+        .WithName("CreateBrand")
+        .WithOpenApi();
     }
 }
