@@ -44,12 +44,16 @@ export default function InventoryItemComponent() {
                 <input className='form-control' placeholder='Name' />
             </div>
             <div>
-                <b>Unit</b>
-                <input className='form-control' placeholder='Name' />
-            </div>
-            <div>
                 <b>Unit Count</b>
-                <input className='form-control' placeholder='Name' />
+                <div className='d-flex'>
+                    <div className='flex-grow-1'><input type='number' className='form-control' placeholder='Units' /></div>
+                    <div className='flex-shrink-1'><select className='form-control flex-shrink-1'>
+                        <option>GRAMS</option>
+                        <option>MILLILITRES</option>
+                        <option>ITEM</option>
+                    </select></div>
+
+                </div>
             </div>
             <div>
                 <button onClick={() => _handleSave()} className='btn'>Save</button>
