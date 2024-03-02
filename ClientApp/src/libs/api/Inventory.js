@@ -12,7 +12,17 @@ var Inventory = {
 
         return result
     },
+    async ListInventory(Item) {
+        var result = await API.process(
+            'api/InventoryItem',
+            'GET',
+            null
+        ).catch((err) => {
+            throw err;
+        })
 
+        return result
+    },
     /*
     Brands
     */

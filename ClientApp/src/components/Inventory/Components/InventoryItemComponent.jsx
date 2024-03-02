@@ -55,7 +55,7 @@ export default function InventoryItemComponent() {
 
                 </div>
             </div>
-            <div>
+            <div className=' text-center'>
                 <button onClick={() => _handleSave()} className='btn'>Save</button>
             </div>
         </div>

@@ -18,7 +18,7 @@ public static class InventoryItemEndpoints
 
         group.MapGet("/", async (MyfinIIContext db) =>
         {
-            return await db.InventoryItems.ToListAsync();
+            return await db.InventoryItems.Include(d => d.Brand).Include(d => d.Category).ToListAsync();
         })
         .WithName("GetAllInventoryItems")
         .WithOpenApi();
