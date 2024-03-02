@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyfinII.Data;
 
@@ -10,12 +11,14 @@ using MyfinII.Data;
 namespace MyfinII.Migrations
 {
     [DbContext(typeof(MyfinIIContext))]
-    partial class MyfinIIContextModelSnapshot : ModelSnapshot
+    [Migration("20240302112043_Inventory")]
+    partial class Inventory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.16");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
 
             modelBuilder.Entity("MyfinII.Models.Accounts.Account", b =>
                 {
@@ -55,21 +58,6 @@ namespace MyfinII.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("MyfinII.Models.Invetory.Categories.InventoryCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InventoryCategories");
-                });
-
             modelBuilder.Entity("MyfinII.Models.Invetory.InventoryItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -77,9 +65,6 @@ namespace MyfinII.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("BrandId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -98,8 +83,6 @@ namespace MyfinII.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("InventoryItems");
                 });
@@ -136,13 +119,7 @@ namespace MyfinII.Migrations
                         .WithMany()
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("MyfinII.Models.Invetory.Categories.InventoryCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
                     b.Navigation("Brand");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("MyfinII.Models.Statement.Transaction.TransactionLedgerItem", b =>

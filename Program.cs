@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyfinII.Data;
+using MyfinII.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyfinIIContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("MyfinIIContext") ?? throw new InvalidOperationException("Connection string 'MyfinIIContext' not found.")));
@@ -8,6 +9,10 @@ builder.Services.AddDbContext<MyfinIIContext>(options =>
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -17,6 +22,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -28,5 +39,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
+
+app.MapInventoryItemEndpoints();
 
 app.Run();

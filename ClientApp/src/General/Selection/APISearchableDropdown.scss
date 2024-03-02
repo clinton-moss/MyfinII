@@ -1,0 +1,24 @@
+.api-searchable-drop-down {
+
+    // main results
+    .results {
+        .result-field {}
+    }
+
+    // Search results
+    .search-container, .create-container {
+        background-color: white;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        padding:0.3rem;
+        border-radius: 0.4rem;
+
+        .search-results {
+            .search-result {
+                .search-result-field {}
+            }
+        }
+    }
+
+    // Create
+    .create-container {}
+}

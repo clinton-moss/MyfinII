@@ -23,5 +23,11 @@ namespace MyfinII.Data
          * Statements
          */
         public DbSet<TransactionLedgerItem> TransactionLedgerItem { get; set; } = default!;
+        /*
+         * Invetory
+         */
+        public DbSet<MyfinII.Models.Invetory.InventoryItem> InventoryItems { get; set; }
+        public DbSet<MyfinII.Models.Invetory.Brand> Brands { get; set; }
+        public DbSet<MyfinII.Models.Invetory.Categories.InventoryCategory> InventoryCategories { get; set; }
     }
 }
