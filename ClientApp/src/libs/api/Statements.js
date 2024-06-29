@@ -12,6 +12,17 @@ var Statements = {
 
         return result
     },
+    async ProcessStatementEntries(ledger) {
+        var result = await API.process(
+            'api/Statement/Entries',
+            'POST',
+            ledger
+        ).catch((err) => {
+            throw err;
+        })
+
+        return result
+    },
 }
 
 export default Statements;

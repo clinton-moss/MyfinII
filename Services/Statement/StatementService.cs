@@ -1,9 +1,11 @@
-﻿using MyfinII.Data;
+﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using MyfinII.Data;
 using MyfinII.Exceptions;
 using MyfinII.Helpers.FileProcessing;
 using MyfinII.Helpers.FileProcessing.Statements.Templates;
 using MyfinII.Models.Accounts;
 using MyfinII.Models.Statement.Transaction;
+using MyfinII.Models.Statement.Transaction.DropedItems;
 using MyfinII.Models.Util;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -47,6 +49,55 @@ public class StatementService
                     ValuesRead["transaction description"][i],
                     float.Parse(ValuesRead["transaction amount"][i])
                     )));
+        }
+        return Results;
+    }
+    public async Task<List<TransactionProcessingResult>> ProcessStatementEntries(DropedItemLedger Ledger)
+    {
+        List<TransactionProcessingResult> Results = new List<TransactionProcessingResult>();
+        foreach (var item in Ledger.Ledger)
+        {
+            try
+            {
+                Models.Accounts.Account account = _context.Account.FirstOrDefault(a => (a.AccountNumber == item.Account.Trim() || a.AccountName == item.Account.Trim()));
+                if (Ledger == null)
+                {
+                    try
+                    {
+                        account = new Models.Accounts.Account(item.Account.Trim());
+                        account.AccountName = item.Account.Trim();
+                        account.AccountType = "Unkown";
+                        _context.Add(account);
+                        _context.SaveChanges();
+                    }
+                    catch (Exception ex) { }
+                }
+
+                Results.Add(LogTransaction(
+                    new TransactionLedgerItem(
+                        account,
+                        DateTime.Parse(item.Date),
+                        item.Description,
+                        !string.IsNullOrEmpty(item.Ammount) ? float.Parse(item.Ammount) :
+                        !string.IsNullOrEmpty(item.Credit) ? float.Parse(item.Credit)
+                        : item.Debit.Substring(0, 1) != "-" ? float.Parse("-" + item.Debit) : float.Parse(item.Debit)
+                        //float.Parse(
+                        //    string.IsNullOrEmpty(item.Ammount) ? item.Ammount :
+                        //    !string.IsNullOrEmpty(item.Credit) ? item.Credit
+                        //    : item.Debit.Substring(0, 1) != "-" ? "-" + item.Debit : item.Debit)
+                        )
+                    )
+                );
+            }
+            catch (Exception ex)
+            {
+                Results.Add(new TransactionProcessingResult
+                (
+                    null,
+                    false,
+                    ex.Message
+                ));
+            }
         }
         return Results;
     }
