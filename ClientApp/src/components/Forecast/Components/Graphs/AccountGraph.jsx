@@ -5,7 +5,7 @@ import GraphAPI from '../../../../General/Graph/GraphAPI'
 export default function AccountGraph() {
     return (
         <div>
-            <GraphAPI URL={'api/Account/Ledger/Graph/Account'} Type={'Line'} />
+            <GraphAPI URL={`api/Account/Ledger/Graph/Account/${localStorage.getItem('Account')}`} Type={'Line'} />
             {/* <Line options={options} data={data} />; */}
         </div>
     )

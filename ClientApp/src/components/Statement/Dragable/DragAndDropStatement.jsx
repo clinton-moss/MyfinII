@@ -27,7 +27,6 @@ export default function DragAndDropStatement({ droped, onDone }) {
         setBank(v)
         _handleChangeColumn(c, v)
     }
-
     useEffect(() => {
         const load = async () => setAccounts(await Accounts.ListAccounts())
         load()

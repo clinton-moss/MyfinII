@@ -4,10 +4,12 @@ import FileUpload from '../../General/FileUpload/FileUpload';
 import GeneralModal from '../../General/Modal/GeneralModal';
 import Statements from '../../libs/api/Statements';
 import UploadFile from '../../libs/api/Types/UploadFile';
-import DragAndDropStatement from './Dragable/DragAndDropStatement';
+import DragAndDropStatementhtml from './Dragable/DragAndDropStatementhtml';
+
 
 export default function UploadStatement({ className }) {
     const [droped, setDroped] = useState([])
+    const [dropedHTML, setDropedHTML] = useState([])
     const [result, setResult] = useState([])
     const { setError } = useContext(ErrorContext)
 
@@ -37,15 +39,22 @@ export default function UploadStatement({ className }) {
 
     const _handleDrop = (event) => {
         event.preventDefault()
+
+        // console.log(event.dataTransfer.types)
+        // console.log(event.dataTransfer.getData('text/plain'))
+        // console.log(new XMLParser().parseFromString(event.dataTransfer.getData('text/html')))
         // console.log(e.dataTransfer.getData('text'))
         // console.log(event.dataTransfer.getData('text/plain'))
+        // console.log(event.dataTransfer.getData('text/html'))
         var _dropped = []
+
         const text = event.dataTransfer.getData('text/plain')
         for (const row of text.split('\n'))
             if (row.trim().length > 0) {
                 _dropped.push(row.split('\t'))
             }
         setDroped(_dropped)
+        setDropedHTML(event.dataTransfer.getData('text/html'))
     }
 
     return (
@@ -59,7 +68,8 @@ export default function UploadStatement({ className }) {
                 }
             </table>
             <GeneralModal show={droped.length > 0} onClose={() => setDroped([])}>
-                <DragAndDropStatement droped={droped} onDone={_handleDropComplete} />
+                {/* <DragAndDropStatement droped={droped} onDone={_handleDropComplete} /> */}
+                <DragAndDropStatementhtml droped={dropedHTML} onDone={_handleDropComplete} />
             </GeneralModal>
             <table
                 draggable

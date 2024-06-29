@@ -94,11 +94,11 @@ export default function LedgerDashboard() {
     const columnHelper = createColumnHelper()
 
     const columns = [
-        columnHelper.accessor('id', {
-            header: () => '#',
-            cell: info => info.getValue(),
-            footer: info => info.column.id,
-        }),
+        // columnHelper.accessor('id', {
+        //     header: () => '#',
+        //     cell: info => info.getValue(),
+        //     footer: info => info.column.id,
+        // }),
         columnHelper.accessor('account', {
             header: () => 'Account',
             cell: info => info.getValue(),
