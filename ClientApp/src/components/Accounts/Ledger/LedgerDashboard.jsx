@@ -217,7 +217,7 @@ export default function LedgerDashboard() {
             // <input {...props} value={value} onChange={e => setValue(e.target.value)} />
             <>
                 <input {...props} value={value} onChange={e => setValue(e.target.value)} />
-                <button onClick={() => onChange(value)}>Filter</button>
+                <button className='btn btn-sm' onClick={() => onChange(value)}>Filter</button>
             </>
         )
     }
