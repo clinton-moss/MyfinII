@@ -7,7 +7,12 @@ public static class CurrencySanitizer
 {
     public static double SanitizeCurrency(string currency, bool? isNeg = false, bool? checkNeg = false)
     {
-        currency = Regex.Replace(currency, "[^0-9.]", "");
+        var a = currency.Contains(",");
+        var b = currency.Split(",").Count();
+        var c = !currency.Contains(".");
+        if (currency.Contains(",") && currency.Split(",").Count() == 2 && !currency.Contains("."))
+            currency = currency.Replace(",",".");
+        currency = Regex.Replace(currency, "[^0-9.-]", "");
         if ((bool)checkNeg)
         {
             if (currency.Substring(0, 1) != "-" && (bool)isNeg)

@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Robot } from 'react-bootstrap-icons';
 import { SiMicrosoftexcel } from 'react-icons/si';
 import Export from '../../libs/api/Export';
+import CommonContext from '../Common/CommonProvider';
 export default function ExportOptions() {
-
+    const { setProcessing } = useContext(CommonContext)
     const onGenerateAllLedgers = (e) => {
+        setProcessing({ text: 'Generating Report. Please wait', icon: <Robot size={20} /> })
         Export.AllLedgers()
             .then((res) => {
+                setProcessing()
                 var binaryData = atob(res.data);
 
                 const blob = new Blob([new Uint8Array(binaryData.length).map((_, index) => binaryData.charCodeAt(index))], {

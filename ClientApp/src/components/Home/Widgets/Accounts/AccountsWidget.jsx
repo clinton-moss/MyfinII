@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import Accounts from '../../../../libs/api/Accounts'
 import NewAccount from './NewAccount'
 import SelectAccount from './SelectAccount'
-import Accounts from '../../../../libs/api/Accounts'
 
 export default function AccountsWidget() {
     const [mode, setMode] = useState('')

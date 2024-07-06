@@ -29,11 +29,11 @@ public class ExportController : ControllerBase
 
         DataColumn dcDT = table.Columns.Add("Date/Time", typeof(DateTime));
         DataColumn dcD = table.Columns.Add("Description", typeof(string));
-        DataColumn dcDD = table.Columns.Add("Debit", typeof(double));
+        DataColumn dcDD = table.Columns.Add("Debit", System.Type.GetType("System.Double"));
         dcDD.AllowDBNull = true;
-        DataColumn dcC = table.Columns.Add("Credit", typeof(double));
+        DataColumn dcC = table.Columns.Add("Credit", System.Type.GetType("System.Double"));
         dcC.AllowDBNull = true;
-        DataColumn dcA = table.Columns.Add("Amount", typeof(double));
+        DataColumn dcA = table.Columns.Add("Amount", System.Type.GetType("System.Double"));
         //table.Rows.Add(new object[] { "Test" });
         (await _context.TransactionLedgerItem.ToListAsync())
             .ForEach(row => table.Rows.Add(new object[] {
@@ -57,6 +57,14 @@ public class ExportController : ControllerBase
                 {
                     var sheet = wb.AddWorksheet(await GetLedger(account), account.AccountName);
                     sheet.Columns(1, 5).Style.Font.FontColor = XLColor.Black;
+                    //[$R-1C09] # ##0,00;[RED][$R-1C09]-# ##0,00
+                    //[$R-1C09] # ##0,00;[RED][$R-1C09]-# ##0,00
+                    //[$R-1C09] # ## 000;[RED][$R-1C09]-# ## 000
+                    string currencyFmt = "# ##0.00;[RED]-# ##0.00";
+                    sheet.Cells("C:C").Style.NumberFormat.Format = currencyFmt;
+                    sheet.Cells("D:D").Style.NumberFormat.Format = currencyFmt;
+                    sheet.Cells("E:E").Style.NumberFormat.Format = currencyFmt;
+                    sheet.Columns().AdjustToContents();
                 });
             //_context.TransactionLedgerItem.ToList()
             //    .ForEach(e => e.)

@@ -9,8 +9,7 @@ export default function NewAccount({ onCancel, onCreate }) {
 
     const _handleOnCreate = () => {
         Accounts
-            .CreateAccount(account)
-        onCreate()
+            .CreateAccount(account).then(() => onCreate())
     }
 
     return (
@@ -29,6 +28,14 @@ export default function NewAccount({ onCancel, onCreate }) {
                         <option>Business</option>
                         <option>Personal</option>
                     </select>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-12'>
+                    <label>Account Number</label>
+                    <input
+                        onChange={(e) => setAccount({ ...account, AccountNumber: e.target.value })}
+                        className='form-control' placeholder='Account Number' />
                 </div>
             </div>
             <div className='row'>

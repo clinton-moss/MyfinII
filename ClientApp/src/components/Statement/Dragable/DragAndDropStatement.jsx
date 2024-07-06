@@ -6,7 +6,7 @@ export default function DragAndDropStatement({ droped, onDone }) {
     const [ledger, setLedger] = useState({})
     const [accounts, setAccounts] = useState()
     const [cols, setCols] = useState({})
-    const COL_TYPES = ['Date', 'Description', 'Credit', 'Debit', 'Account']
+    const COL_TYPES = ['Date', 'Description', 'Credit', 'Debit', 'Amount', 'Account']
     const _handleChangeColumn = (c, v) => {
         var _cols = { ...cols, [c]: v }
         // var _ledger = ledger
