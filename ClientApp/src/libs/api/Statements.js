@@ -23,6 +23,17 @@ var Statements = {
 
         return result
     },
+    async ForceStatementEntries(res) {
+        var result = await API.process(
+            'api/Statement/Entry',
+            'PUT',
+            res
+        ).catch((err) => {
+            throw err;
+        })
+
+        return result
+    },
 }
 
 export default Statements;

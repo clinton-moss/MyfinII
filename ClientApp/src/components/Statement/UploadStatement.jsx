@@ -7,6 +7,7 @@ import Statements from '../../libs/api/Statements';
 import UploadFile from '../../libs/api/Types/UploadFile';
 import CommonContext from '../Common/CommonProvider';
 import DragAndDropStatementModal from './Dragable/DragAndDropStatementModal';
+import UploadResultLineItem from './LineItems/UploadResultLineItem';
 
 
 export default function UploadStatement({ className }) {
@@ -76,9 +77,7 @@ export default function UploadStatement({ className }) {
                     )
                 }
                 {
-                    result.details && result.details.map((r, i) =>
-                        <tr key={`res-${i}`}><td className='bg-dark text-light'></td><td className={`${r.isSuccess ? 'bg-success text-light' : 'bg-danger text-light'}`}>{r.status}</td><td>{JSON.stringify(r.transaction)}</td></tr>
-                    )
+                    result.details && result.details.map((r, i) => <UploadResultLineItem results={r} id={i} />)
                 }
             </table>
             <GeneralModal show={droped.length > 0} onClose={() => setDroped([])}>

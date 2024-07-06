@@ -57,9 +57,6 @@ public class ExportController : ControllerBase
                 {
                     var sheet = wb.AddWorksheet(await GetLedger(account), account.AccountName);
                     sheet.Columns(1, 5).Style.Font.FontColor = XLColor.Black;
-                    //[$R-1C09] # ##0,00;[RED][$R-1C09]-# ##0,00
-                    //[$R-1C09] # ##0,00;[RED][$R-1C09]-# ##0,00
-                    //[$R-1C09] # ## 000;[RED][$R-1C09]-# ## 000
                     string currencyFmt = "# ##0.00;[RED]-# ##0.00";
                     sheet.Cells("C:C").Style.NumberFormat.Format = currencyFmt;
                     sheet.Cells("D:D").Style.NumberFormat.Format = currencyFmt;

@@ -22,10 +22,13 @@ namespace MyfinII.Controllers
         [HttpPost("Upload")]
         public async Task<List<TransactionProcessingResult>> UploadStatement(UploadFile UploadedFile)
             => await new StatementService(_context).ProcessStatementFile(UploadedFile);
-        
+
         [HttpPost("Entries")]
         public async Task<List<TransactionProcessingResult>> ProcessStatementEntries(DropedItemLedger Ledger)
         => await new StatementService(_context).ProcessStatementEntries(Ledger);
         //=> await new StatementService(_context).ProcessStatementFile(UploadedFile);
+        [HttpPut("Entry")]
+        public async Task<TransactionProcessingResult> ForceStatementEntries(TransactionProcessingResult Ledger)
+            => await new StatementService(_context).ForceStatementEntries(Ledger);
     }
 }

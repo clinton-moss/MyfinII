@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Microsoft.IdentityModel.Tokens;
 using MyfinII.Data;
 using MyfinII.Exceptions;
 using MyfinII.Helpers;
@@ -55,13 +56,41 @@ public class StatementService
         }
         return Results;
     }
+
+    public async Task<TransactionProcessingResult> ForceStatementEntries(TransactionProcessingResult Ledger)
+    {
+        Ledger.Transaction.Id = new Guid();
+        return LogTransaction(await GetAccountDetails(Ledger.Transaction), true);
+    }
+            
+    public async Task<TransactionLedgerItem> GetAccountDetails(TransactionLedgerItem Item)
+    {
+        if (string.IsNullOrEmpty(Item.Account.AccountName))
+            throw new Exception("No account number specified");
+        Models.Accounts.Account account = _context.Account.FirstOrDefault(a => (a.AccountNumber == Item.Account.AccountName.Trim() || a.AccountName == Item.Account.AccountName.Trim()));
+        if (account == null)
+        {
+            try
+            {
+                account = new Models.Accounts.Account(Item.Account.AccountName.Trim());
+                account.AccountName = Item.Account.AccountName.Trim();
+                account.AccountType = "Unkown";
+                _context.Add(account);
+                _context.SaveChanges();
+            }
+            catch (Exception ex) { }
+        }
+        Item.Account = account;
+        //Item.Account
+        return Item;
+    }
     public async Task<List<TransactionProcessingResult>> ProcessStatementEntries(DropedItemLedger Ledger)
     {
         List<TransactionProcessingResult> Results = new List<TransactionProcessingResult>();
 
         foreach (var item in Ledger.Ledger)
         {
-            if(item == null) continue;
+            if (item == null) continue;
             try
             {
                 if (string.IsNullOrEmpty(item.Account))
@@ -109,11 +138,16 @@ public class StatementService
         return Results;
     }
 
-    private TransactionProcessingResult LogTransaction(TransactionLedgerItem Transaction)
+    private TransactionProcessingResult LogTransaction(TransactionLedgerItem Transaction, bool? force = false)
     {
         // Check already imported
         var _ledgerExists = _context.TransactionLedgerItem.FirstOrDefault(a => a.DateTime == Transaction.DateTime && a.Description == Transaction.Description && a.Amount == Transaction.Amount);
-        if (_ledgerExists == null)
+        if ((bool)force)
+        {
+            _context.Add(Transaction);
+            _context.SaveChanges();
+        }
+        else if (_ledgerExists == null)
         {
             _context.Add(Transaction);
             _context.SaveChanges();
