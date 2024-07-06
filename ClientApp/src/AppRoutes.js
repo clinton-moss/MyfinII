@@ -1,4 +1,5 @@
 import AppRoutesAccountsDashboard from "./AppRoutesAccountsDashboard";
+import AppRoutesExport from "./AppRoutesExport";
 import AppRoutesForecastDashboard from "./AppRoutesForecastDashboard";
 import AppRoutesInventoryDashboard from "./AppRoutesInventoryDashboard";
 import AppRoutesLedgerDashbaord from "./AppRoutesLedgerDashbaord";
@@ -35,7 +36,8 @@ const AppRoutes = [
   ...AppRoutesForecastDashboard,
   ...AppRoutesAccountsDashboard,
   ...AppRoutesInventoryDashboard,
-  ...AppRoutesLedgerDashbaord
+  ...AppRoutesLedgerDashbaord,
+  ...AppRoutesExport
 ];
 
 export default AppRoutes;

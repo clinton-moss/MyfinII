@@ -47,6 +47,9 @@ export class NavMenu extends Component {
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/Ledger">Ledger</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/Export">Export</NavLink>
+              </NavItem>
             </ul>
           </Collapse>
         </Navbar>
