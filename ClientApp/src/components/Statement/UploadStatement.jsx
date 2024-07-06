@@ -1,13 +1,16 @@
 import React, { useContext, useState } from 'react';
+import { Robot } from 'react-bootstrap-icons';
 import ErrorContext from '../../General/Errors/ErrorProvider';
 import FileUpload from '../../General/FileUpload/FileUpload';
 import GeneralModal from '../../General/Modal/GeneralModal';
 import Statements from '../../libs/api/Statements';
 import UploadFile from '../../libs/api/Types/UploadFile';
+import CommonContext from '../Common/CommonProvider';
 import DragAndDropStatementModal from './Dragable/DragAndDropStatementModal';
 
 
 export default function UploadStatement({ className }) {
+    const { setProcessing } = useContext(CommonContext)
     const [droped, setDroped] = useState([])
     const [dropedHTML, setDropedHTML] = useState([])
     const [result, setResult] = useState([])
@@ -25,10 +28,16 @@ export default function UploadStatement({ className }) {
     }
 
     const _handleDropComplete = (ledger) => {
+
+        setProcessing({ text: 'Processing... Please wait', icon: <Robot size={50} /> })
         Statements
             .ProcessStatementEntries({
                 Ledger: ledger
-            }).then((r) => setResult({ details: r }));
+            }).then((r) => {
+                setResult({ details: r })
+
+                setProcessing()
+            });
         setDroped([])
     }
 
@@ -66,7 +75,7 @@ export default function UploadStatement({ className }) {
                         <tr key={r.id}><td>{r.status}</td><td>{r.transaction.description}</td><td>{r.transaction.amount}</td></tr>
                     )
                 }
-                  {
+                {
                     result.details && result.details.map((r, i) =>
                         <tr key={`res-${i}`}><td className='bg-dark text-light'></td><td className={`${r.isSuccess ? 'bg-success text-light' : 'bg-danger text-light'}`}>{r.status}</td><td>{JSON.stringify(r.transaction)}</td></tr>
                     )
