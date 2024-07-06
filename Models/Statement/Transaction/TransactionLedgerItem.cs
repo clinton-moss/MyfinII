@@ -10,7 +10,7 @@ public class TransactionLedgerItem
     {
 
     }
-    public TransactionLedgerItem(Account account, DateTime dateTime, string description, float amount)
+    public TransactionLedgerItem(Account account, DateTime dateTime, string description, double amount)
     {
         Account = account;
         DateTime = dateTime;
@@ -18,7 +18,7 @@ public class TransactionLedgerItem
         Amount = amount;
     }
 
-    public TransactionLedgerItem(Guid id, Account account, DateTime dateTime, string description, float amount)
+    public TransactionLedgerItem(Guid id, Account account, DateTime dateTime, string description, double amount)
     {
         Id = id;
         Account = account;
@@ -33,5 +33,5 @@ public class TransactionLedgerItem
     public Account Account { get; set; }
     public DateTime DateTime { get; set; }
     public string Description { get; set; }
-    public float Amount { get; set; }
+    public double Amount { get; set; }
 }

@@ -17,7 +17,7 @@ public class DropedItemLedgerLineItem
     public string? Credit { get; set; } = null;
     [JsonPropertyName("Debit")]
     public string? Debit { get; set; } = null;
-    [JsonPropertyName("Ammount")]
+    [JsonPropertyName("Amount")]
     public string? Ammount { get; set; } = null;
     [JsonPropertyName("Account")]
     public string? Account { get; set; } = null;

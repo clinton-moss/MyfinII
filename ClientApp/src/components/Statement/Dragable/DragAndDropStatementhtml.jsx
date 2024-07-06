@@ -1,5 +1,6 @@
 import parse from 'html-react-parser';
 import React, { useEffect, useState } from 'react';
+import Accounts from '../../../libs/api/Accounts';
 import DragableCellTR, { TRDragProvider } from './DragableCellTR';
 export default function DragAndDropStatementhtml({ droped, onDone }) {
     const [parsed, setParsed] = useState({})
@@ -9,31 +10,62 @@ export default function DragAndDropStatementhtml({ droped, onDone }) {
     const [ledger, setLedger] = useState({})
     const [accounts, setAccounts] = useState()
     const [cols, setCols] = useState({})
-    const COL_TYPES = ['Date', 'Description', 'Credit', 'Debit', 'Account']
-    // const _handleChangeColumn = (c, v) => {
-    //     var _cols = { ...cols, [c]: v }
-    //     // var _ledger = ledger
-    //     var _ledger = []
-    //     setCols(_cols)
-    //     _ledger = droped.map((r) => {
-    //         var t = {}
-    //         for (const e of Object.keys(_cols))
-    //             t = { ...t, [_cols[e]]: r[e] }
-    //         if (bank) t = { ...t, Account: bank }
-    //         return t
-    //     })
-    //     // _ledger[COL_TYPES[c]] =
-    //     //     droped.map((r) => r[c])
-    //     setLedger(_ledger)
-    // }
-    // const _handleSetDefaultAccount = (c, v) => {
-    //     setBank(v)
-    //     _handleChangeColumn(c, v)
-    // }
-    // useEffect(() => {
-    //     const load = async () => setAccounts(await Accounts.ListAccounts())
-    //     load()
-    // }, [])
+    const COL_TYPES = ['Date', 'Description', 'Credit', 'Debit', 'Amount', 'Account']
+
+    const _update = (_cols) => {
+        var _ledger = []
+        console.log(jsonStr)
+        _ledger = jsonStr.map((r) => {
+            var t = {}
+            for (const e of r.columns)
+                if (_cols[e.column - 1] !== undefined && e.value)
+                    t = { ...t, [_cols[e.column - 1]]: e.value }
+            if (bank && Object.keys(t).length > 0) t = { ...t, Account: bank }
+            return Object.keys(t).length === 0 ? undefined : t
+        })
+        setLedger(_ledger)
+    }
+    useEffect(() => { _update(cols) }, [jsonStr])
+    const _handleChangeColumn = (c, v) => {
+        var _cols = { ...cols, [c]: v }
+        // var _ledger = ledger
+        var _ledger = []
+        setCols(_cols)
+        _update(_cols)
+        // console.log(jsonStr, c, v)
+        // _ledger = jsonStr.map((r) => {
+        //     var t = {}
+        //     for (const e of r.columns)
+        //         if (_cols[e.column - 1] !== undefined && e.value)
+        //             t = { ...t, [_cols[e.column - 1]]: e.value }
+        //     if (bank) t = { ...t, Account: bank }
+        //     return t
+        // })
+        // for (const r of jsonStr) {
+        //     var t = {}
+        //     for (const c of r.columns) {
+
+        //     }
+        // }
+        // _ledger = droped.map((r) => {
+        //     var t = {}
+        //     for (const e of Object.keys(_cols))
+        //         t = { ...t, [_cols[e]]: r[e] }
+        //     if (bank) t = { ...t, Account: bank }
+        //     return t
+        // })
+        // _ledger[COL_TYPES[c]] =
+        //     droped.map((r) => r[c])
+        // setLedger(_ledger)
+    }
+    const _handleSetDefaultAccount = (c, v) => {
+        setBank(v)
+        _handleChangeColumn(c, v)
+    }
+    useEffect(() => {
+        const load = async () => setAccounts(await Accounts.ListAccounts())
+        load()
+    }, [])
 
     const _handleLoopJSON = (j, i, path) => {
         console.log('--------' + i, path)
@@ -99,21 +131,25 @@ export default function DragAndDropStatementhtml({ droped, onDone }) {
                                 "value": "05412834153920100043998"
                             },*/
 
+    var z = 0
+    var _max = 0
     const _handleLoopHtml = (c) => {
         var res = []
-        var i = 1
+        var i = 0
         var r = 1
         // console.log(Array.isArray(c))
         if (Array.isArray(c)) {
-
+            z = 0
             for (const c1 of c) {
                 if (Object.keys(c1).includes('props') && Object.keys(c1.props).includes('children')) {
+                    if (z++ > _max) _max = z
                     switch (c1.type) {
-                        case 'br': r++; i = 0; break;
+                        case 'br': r++; i = 0; z = 0; break;
                         case 'div':
                         case 'span': i++; break
                         default: break;
                     }
+
                     if (i !== 0) {
                         var o = jsonStr.find(x => x.row && parseInt(x.row) === parseInt(r))
                         if (o)
@@ -151,6 +187,18 @@ export default function DragAndDropStatementhtml({ droped, onDone }) {
             // console.log('**********', Object.keys(c1).includes('props'))
 
             //console.log(jsonStr)
+            console.log(_max)
+
+            for (var q of jsonStr) {
+                if (q.columns.length < _max)
+                    for (var a = q.columns.length; a < _max; a++) {
+                        q.columns.push({
+                            column: a,
+                            value: ''
+                        })
+                    }
+            }
+
             setJsonStr(jsonStr)
             // var table = []
             // if (jsonStr.length > 0) {
@@ -193,12 +241,48 @@ export default function DragAndDropStatementhtml({ droped, onDone }) {
         }
     }, [droped])
 
+    const _handleDone = () => {
+        //setLedger
+        // var result = []
+        // for (const r of jsonStr) {
+        //     var cols = {}
+        //     for (const c of r.columns) {
+        //         cols[COL_TYPES[]]
+        //     }
+        //     result.push(cols)
+        //     // result.push({
+
+        //     // })
+        // }
+        onDone(ledger)
+        // console.log(ledger)
+    }
+
     return (
         <div className='text-dark'>
             {rendered && rendered}
+            <div className='d-flex'>
+                <b>Default Account: </b>
+                <select
+                    onChange={(e) => _handleSetDefaultAccount(COL_TYPES.indexOf('Account'), e.target.value)}
+                    className='form-control form-control-sm'>
+                    <option></option>
+                    {accounts && accounts.map((a, i) => <option key={`Default-Account-${i}`}>{a.accountName}</option>)}</select>
+            </div>
             {
                 jsonStr && <TRDragProvider setJsonStr={setJsonStr} jsonStr={jsonStr}>
                     <table>
+                        <thead>
+                            <tr>
+                                {jsonStr && jsonStr.length > 0 && jsonStr[0].columns.map((r, i) => <td><select
+                                    onChange={(e) => _handleChangeColumn(i, e.target.value)}
+                                    className='form-control form-control-sm'>
+                                    <option></option>
+                                    {COL_TYPES.map((m, x) => <option key={`Column-Select-Option-${x}`}>{m}</option>)}
+                                </select></td>)}
+                            </tr>
+                        </thead>
+
                         {jsonStr.map((r) =>
                             <tr>
                                 {r.columns.map((col) => <DragableCellTR col={col.column} row={r.row}>{col.value}</DragableCellTR>)}
@@ -217,6 +301,9 @@ export default function DragAndDropStatementhtml({ droped, onDone }) {
             {
                 // droped && <div dangerouslySetInnerHTML={{ __html: droped }} />
             }
+            <div className='d-shrink-1'>
+                <button onClick={_handleDone}>Done</button>
+            </div>
         </div>
     )
 }

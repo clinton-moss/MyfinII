@@ -45,7 +45,8 @@ export const TRDragProvider = ({ setJsonStr, jsonStr, children }) => {
     return <TRDragContext.Provider value={{
         handleStartDrag,
         handleOverDrag,
-        handleEndDrag
+        handleEndDrag,
+        over
     }}>
         {active && Object.keys(active).length > 0 && over && Object.keys(over).length > 0 &&
             <div style={{ position: 'absolute' }}>
@@ -58,10 +59,11 @@ export const TRDragProvider = ({ setJsonStr, jsonStr, children }) => {
 }
 
 export default function DragableCellTR({ children, col, row }) {
-    const { handleStartDrag, handleOverDrag, handleEndDrag } = useContext(TRDragContext)
+    const { handleStartDrag, handleOverDrag, handleEndDrag, over } = useContext(TRDragContext)
 
     return (
         <td
+            className={`${over && over.row === row && over.col === col ? 'bg-primary' : ''}`}
             draggable
             onDragStart={() => handleStartDrag(col, row)}
             onDragOver={() => handleOverDrag(col, row)}

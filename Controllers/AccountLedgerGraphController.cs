@@ -26,7 +26,7 @@ public class AccountLedgerGraphController : ControllerBase
         //List<string> Accounts = new List<string>();
         List<Account> Accounts = await _context.Account.ToListAsync();
         List<string> Dates = new List<string>();
-        List<float> Values = new List<float>();
+        List<double> Values = new List<double>();
         string accountName = "";
 
         // Loop through all accounts
@@ -62,7 +62,7 @@ public class AccountLedgerGraphController : ControllerBase
             {
                 new GraphJSDataDataset()
                 {
-                    data = Values.ToArray(),
+                    data =  Values.ToArray(),
                      label= accountName,
                 }
             }

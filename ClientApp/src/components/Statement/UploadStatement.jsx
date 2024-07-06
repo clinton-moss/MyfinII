@@ -4,7 +4,7 @@ import FileUpload from '../../General/FileUpload/FileUpload';
 import GeneralModal from '../../General/Modal/GeneralModal';
 import Statements from '../../libs/api/Statements';
 import UploadFile from '../../libs/api/Types/UploadFile';
-import DragAndDropStatementhtml from './Dragable/DragAndDropStatementhtml';
+import DragAndDropStatementModal from './Dragable/DragAndDropStatementModal';
 
 
 export default function UploadStatement({ className }) {
@@ -28,7 +28,7 @@ export default function UploadStatement({ className }) {
         Statements
             .ProcessStatementEntries({
                 Ledger: ledger
-            });
+            }).then((r) => setResult({ details: r }));
         setDroped([])
     }
 
@@ -60,16 +60,22 @@ export default function UploadStatement({ className }) {
     return (
         <div>
             <FileUpload PostURL={'api/Statement/Upload'} onComplete={(r) => setResult(r)} onError={(e) => setError({ show: true, description: e, title: 'Failed To Upload Statement', yesAction: undefined, noAction: undefined })} />
-            <table className={'table '.concat(className)}>
+            <table className={'table table-bordered '.concat(className)}>
                 {
                     result.data && result.data.map((r, i) =>
                         <tr key={r.id}><td>{r.status}</td><td>{r.transaction.description}</td><td>{r.transaction.amount}</td></tr>
                     )
                 }
+                  {
+                    result.details && result.details.map((r, i) =>
+                        <tr key={`res-${i}`}><td className='bg-dark text-light'></td><td className={`${r.isSuccess ? 'bg-success text-light' : 'bg-danger text-light'}`}>{r.status}</td><td>{JSON.stringify(r.transaction)}</td></tr>
+                    )
+                }
             </table>
             <GeneralModal show={droped.length > 0} onClose={() => setDroped([])}>
-                {/* <DragAndDropStatement droped={droped} onDone={_handleDropComplete} /> */}
-                <DragAndDropStatementhtml droped={dropedHTML} onDone={_handleDropComplete} />
+                <DragAndDropStatementModal _handleDropComplete={_handleDropComplete} droped={droped} dropedHTML={dropedHTML} />
+                {/* <DragAndDropStatement droped={droped} onDone={_handleDropComplete} />
+                <DragAndDropStatementhtml droped={dropedHTML} onDone={_handleDropComplete} /> */}
             </GeneralModal>
             <table
                 draggable

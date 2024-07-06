@@ -9,6 +9,6 @@ public class GraphJSData
 public class GraphJSDataDataset
 {
     public string label { get; set; }
-    public float[] data { get; set; }
+    public double[] data { get; set; }
     public string? backgroundColor { get; set; }
 }

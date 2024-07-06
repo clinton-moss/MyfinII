@@ -1,12 +1,15 @@
 ﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using MyfinII.Data;
 using MyfinII.Exceptions;
+using MyfinII.Helpers;
+using MyfinII.Helpers.DateTimeFunctions;
 using MyfinII.Helpers.FileProcessing;
 using MyfinII.Helpers.FileProcessing.Statements.Templates;
 using MyfinII.Models.Accounts;
 using MyfinII.Models.Statement.Transaction;
 using MyfinII.Models.Statement.Transaction.DropedItems;
 using MyfinII.Models.Util;
+using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MyfinII.Services.Statement;
@@ -55,12 +58,16 @@ public class StatementService
     public async Task<List<TransactionProcessingResult>> ProcessStatementEntries(DropedItemLedger Ledger)
     {
         List<TransactionProcessingResult> Results = new List<TransactionProcessingResult>();
+
         foreach (var item in Ledger.Ledger)
         {
+            if(item == null) continue;
             try
             {
+                if (string.IsNullOrEmpty(item.Account))
+                    throw new Exception("No account number specified");
                 Models.Accounts.Account account = _context.Account.FirstOrDefault(a => (a.AccountNumber == item.Account.Trim() || a.AccountName == item.Account.Trim()));
-                if (Ledger == null)
+                if (account == null)
                 {
                     try
                     {
@@ -76,15 +83,15 @@ public class StatementService
                 Results.Add(LogTransaction(
                     new TransactionLedgerItem(
                         account,
-                        DateTime.Parse(item.Date),
+                        DateTimeSanitizer.SanitizeDate(item.Date),
                         item.Description,
-                        !string.IsNullOrEmpty(item.Ammount) ? float.Parse(item.Ammount) :
-                        !string.IsNullOrEmpty(item.Credit) ? float.Parse(item.Credit)
-                        : item.Debit.Substring(0, 1) != "-" ? float.Parse("-" + item.Debit) : float.Parse(item.Debit)
-                        //float.Parse(
-                        //    string.IsNullOrEmpty(item.Ammount) ? item.Ammount :
-                        //    !string.IsNullOrEmpty(item.Credit) ? item.Credit
-                        //    : item.Debit.Substring(0, 1) != "-" ? "-" + item.Debit : item.Debit)
+                        !string.IsNullOrEmpty(item.Ammount) ? CurrencySanitizer.SanitizeCurrency(item.Ammount) :
+                        !string.IsNullOrEmpty(item.Credit) ? CurrencySanitizer.SanitizeCurrency(item.Credit)
+                        : CurrencySanitizer.SanitizeCurrency(item.Debit, true, true) // item.Debit.Substring(0, 1) != "-" ? double.Parse("-" + item.Debit) : double.Parse(item.Debit)
+                                                                                     //float.Parse(
+                                                                                     //    string.IsNullOrEmpty(item.Ammount) ? item.Ammount :
+                                                                                     //    !string.IsNullOrEmpty(item.Credit) ? item.Credit
+                                                                                     //    : item.Debit.Substring(0, 1) != "-" ? "-" + item.Debit : item.Debit)
                         )
                     )
                 );
