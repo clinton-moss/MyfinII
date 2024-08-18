@@ -3,6 +3,7 @@ import AppRoutesExport from "./AppRoutesExport";
 import AppRoutesForecastDashboard from "./AppRoutesForecastDashboard";
 import AppRoutesInventoryDashboard from "./AppRoutesInventoryDashboard";
 import AppRoutesLedgerDashbaord from "./AppRoutesLedgerDashbaord";
+import AppRoutesReportsDashbaord from "./AppRoutesReportsDashbaord";
 import AccountDashboard from "./components/Accounts/AccountDashboard";
 import Home from "./components/Home";
 import StatementsDashboard from "./components/Statement/StatementsDashboard";
@@ -37,7 +38,8 @@ const AppRoutes = [
   ...AppRoutesAccountsDashboard,
   ...AppRoutesInventoryDashboard,
   ...AppRoutesLedgerDashbaord,
-  ...AppRoutesExport
+  ...AppRoutesExport,
+  ...AppRoutesReportsDashbaord
 ];
 
 export default AppRoutes;

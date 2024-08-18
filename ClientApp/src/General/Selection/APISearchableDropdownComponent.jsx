@@ -41,7 +41,6 @@ export default function APISearchableDropdownComponent({ dataset, options, class
     return (
         <div className={'api-searchable-drop-down position-relative w-100 '.concat(className)}>
             <div onClick={() => setMode('Search')} className='results'>{results.length === 0 ? placeholder : results.map((r) => options.dataset.viewFields.map((f) => <span key={'result-field-' + r[options.dataset.primaryKey] + '-' + f.field} className='result-field'> {r[f.field]} </span>))}</div>
-
             {
                 mode === 'Add'
                     ?
